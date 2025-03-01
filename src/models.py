@@ -22,3 +22,30 @@ class Inventory(db.Model):
     location = db.Column(db.String(100))
     last_updated = db.Column(db.DateTime, server_default=db.func.current_timestamp())
     book = db.relationship('Book', backref='inventory')
+
+class Sales(db.Model):  # Task 2.1: Persistent sales
+    __tablename__ = 'Sales'
+    sale_id = db.Column(db.Integer, primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('Books.book_id'))
+    quantity_sold = db.Column(db.Integer)
+    total_price = db.Column(db.Float)
+    sale_date = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+    book = db.relationship('Book', backref='sales')
+
+class SupplierOrders(db.Model):  # Tasks 3.1, 3.2: Supplier orders
+    __tablename__ = 'SupplierOrders'
+    order_id = db.Column(db.Integer, primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('Books.book_id'))
+    quantity = db.Column(db.Integer)
+    status = db.Column(db.String(20), default='Pending')
+    order_date = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+    book = db.relationship('Book', backref='supplier_orders')
+
+class Orders(db.Model):  # Tasks 4.2, 4.3: Customer orders
+    __tablename__ = 'Orders'
+    order_id = db.Column(db.Integer, primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('Books.book_id'))
+    quantity = db.Column(db.Integer)
+    status = db.Column(db.String(20), default='Pending')
+    order_date = db.Column(db.DateTime, server_default=db.func.current_timestamp())
+    book = db.relationship('Book', backref='orders')
