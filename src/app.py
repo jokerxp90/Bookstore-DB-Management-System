@@ -1,5 +1,5 @@
 # src/app.py
-from flask import Flask, jsonify
+from flask import Flask
 from models import db
 from routes import inventory_bp
 
@@ -10,10 +10,9 @@ db.init_app(app)
 
 app.register_blueprint(inventory_bp, url_prefix='/inventory')
 
-# Add a root route
 @app.route('/')
 def home():
-    return jsonify({'message': 'Welcome to the Bookstore Management System API'}), 200
+    return 'Welcome to the Bookstore Management System API'
 
 if __name__ == '__main__':
     with app.app_context():
